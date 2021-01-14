@@ -1,14 +1,15 @@
 
-byte offset = 5;
+byte offset = 14;
 
-byte SpMaxL=85 + offset;
+byte SpMaxL=83 + offset;
 byte SpMaxR=70 + offset;
 #define inA1 6
 #define inA2 7
 #define inB1 8
 #define inB2 9
 
-int status = 200;
+int stat = 200;
+int vach = 0;
 
 void Tien( byte speedL, byte speedR);
 void Lui(byte SpeedL, byte SpeedR);
@@ -34,8 +35,8 @@ void setup() {
   digitalWrite(inB1, HIGH);
   digitalWrite(inB2, LOW); 
   
-  Tien(100,85);
-  delay(20);
+//  Tien(100,85);
+//  delay(5);
 }
 
 void loop() {
@@ -65,8 +66,9 @@ void doline()
 //  Serial.println(trangthai);
 
  if (trangthai == 0) {
-    trangthai = status;
+    trangthai = stat;
  }
+// trangthai=200;
   switch (trangthai)
   {
     case 200:
@@ -76,22 +78,22 @@ void doline()
       Lui(SpMaxL-10,SpMaxR-10);
       break;
     case 1:
-      Tien(SpMaxL-20,SpMaxR-SpMaxR+15);
+      Tien(SpMaxL-20,SpMaxR-SpMaxR+10);
       break;
     case 2:
-      Tien(SpMaxL-10,SpMaxR-SpMaxR+10);
+      Tien(SpMaxL-15,SpMaxR-SpMaxR+5);
       break;
     case 3:
-      Tien(SpMaxL-15,SpMaxR-SpMaxR+10);
+      Tien(SpMaxL,SpMaxR-SpMaxR);
       break;
     case -1:
-      Tien(SpMaxL-SpMaxL+20,SpMaxR-20);
+      Tien(SpMaxL-SpMaxL+10,SpMaxR-20);
       break;
     case -2:
-      Tien(SpMaxL-SpMaxL+10,SpMaxR-10);
+      Tien(SpMaxL-SpMaxL+5,SpMaxR-15);
       break;
     case -3:
-      Tien(SpMaxL-SpMaxL+15,SpMaxR-15);
+      Tien(SpMaxL-SpMaxL,SpMaxR);
       break;
     default:
       digitalWrite(6, 0);
@@ -101,8 +103,8 @@ void doline()
       break;
   }
   Serial.println(trangthai);
-  status = trangthai;
-  delay(10);
+  stat = trangthai;
+//  delay(100);
 }
 boolean IFSensor (byte PinNumb)
 {
@@ -122,6 +124,19 @@ int trangThai5CamBien ()
   int sens3 = IFSensor(A2);
   int sens4 = IFSensor(A1);
   int sens5 = IFSensor(A0);
+   if (sens1 == 0 && sens5 == 0){
+    vach = 1;
+  }
+  if (sens1 == 1 && sens5 == 1){
+    vach = 0;
+  }
+  if (vach == 0){
+    sens1 = !sens1;
+    sens2 = !sens2;
+    sens3 = !sens3;
+    sens4 = !sens4;
+    sens5 = !sens5;
+  }
 //  Serial.print(sens1);
 //  Serial.print(" ");
 //  Serial.print(sens2);
@@ -131,6 +146,7 @@ int trangThai5CamBien ()
 //  Serial.print(sens4);
 //  Serial.print(" ");
 //  Serial.println(sens5); 
+//  delay(500);
   switch (lechvach5mat(sens1, sens2, sens3, sens4, sens5))
   {
     case -3:
@@ -167,11 +183,7 @@ int lechvach5mat(int sens1, int sens2, int sens3, int sens4, int sens5)
       Dương là lệch trái
       Mức độ lệch giảm tăng dần : 1 3 2
   */
-//   int sens1 = IFSensor(A4);
-//   int sens2 = IFSensor(A3);
-//   int sens3 = IFSensor(A2);
-//   int sens4 = IFSensor(A1);
-//   int sens5 = IFSensor(A0);
+
   int lechvach = -2 * sens1 - sens2 + sens4 + 2 * sens5;
   switch (lechvach)
   {
