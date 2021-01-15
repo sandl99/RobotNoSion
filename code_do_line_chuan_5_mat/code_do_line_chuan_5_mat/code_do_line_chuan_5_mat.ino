@@ -1,4 +1,5 @@
-byte offset = 25;
+
+byte offset = 5;
 
 byte SpMaxL=85 + offset;
 byte SpMaxR=70 + offset;
@@ -8,6 +9,12 @@ byte SpMaxR=70 + offset;
 #define inB2 9
 
 int status = 200;
+
+void Tien( byte speedL, byte speedR);
+void Lui(byte SpeedL, byte SpeedR);
+void doline();
+int trangThai5CamBien ();
+int lechvach5mat(int sens1, int sens2, int sens3, int sens4, int sens5);
 
 void setup() {
   Serial.begin(9600);
@@ -25,7 +32,7 @@ void setup() {
   digitalWrite(inA1, HIGH);
   digitalWrite(inA2, LOW);
   digitalWrite(inB1, HIGH);
-  digitalWrite(inB2, LOW);
+  digitalWrite(inB2, LOW); 
   
   Tien(100,85);
   delay(20);
@@ -66,25 +73,25 @@ void doline()
       Tien(SpMaxL,SpMaxR);
       break;
     case 0:
-      Lui(SpMaxL+10,SpMaxR+10);
+      Lui(SpMaxL-10,SpMaxR-10);
       break;
     case 1:
-      Tien(SpMaxL-15,SpMaxR-SpMaxR+20);
-      break;
-    case 2:
       Tien(SpMaxL-20,SpMaxR-SpMaxR+15);
       break;
+    case 2:
+      Tien(SpMaxL-10,SpMaxR-SpMaxR+10);
+      break;
     case 3:
-      Tien(SpMaxL-25,10);
+      Tien(SpMaxL-15,SpMaxR-SpMaxR+10);
       break;
     case -1:
-      Tien(SpMaxL-SpMaxL+10,SpMaxR-15);
+      Tien(SpMaxL-SpMaxL+20,SpMaxR-20);
       break;
     case -2:
-      Tien(SpMaxL-SpMaxL+10,SpMaxR-20);
+      Tien(SpMaxL-SpMaxL+10,SpMaxR-10);
       break;
     case -3:
-      Tien(10,SpMaxR-25);
+      Tien(SpMaxL-SpMaxL+15,SpMaxR-15);
       break;
     default:
       digitalWrite(6, 0);
